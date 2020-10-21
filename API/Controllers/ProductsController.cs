@@ -14,7 +14,6 @@ namespace API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository repository;
-
         //private readonly StoreContext _context;
 
         public ProductsController(IProductRepository repository) //StoreContext context)
@@ -36,6 +35,16 @@ namespace API.Controllers
             return await repository.GetProductbyIdAsync(id); //_context.Products.FindAsync(id);
         }
 
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetPRoductBrands(){
+            return Ok(await repository.GetProductBrandsAsync());
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetPRoductTypes(){
+            return Ok(await repository.GetProductTypesAsync());
+        }   
 
     }
 }
