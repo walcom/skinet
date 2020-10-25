@@ -2,18 +2,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Dtos;
+using API.Errors;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers { 
-    [ApiController] 
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    //[ApiController] 
+    //[Route("api/[controller]")]
+    public class ProductsController : BaseApiController // ControllerBase
     {
         //private readonly IProductRepository repository;
         private readonly IGenericRepository<Product> productsRepo;
@@ -51,6 +53,8 @@ namespace API.Controllers {
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductToReturnDTO>> GetProduct(int id){
             //return " Single product "; string
             //return await repository.GetProductbyIdAsync(id); //_context.Products.FindAsync(id);
@@ -58,6 +62,9 @@ namespace API.Controllers {
 
             //return await productsRepo.GetEntityWithSpec(spec); //.GetbyIdAsync(id);
             var product = await productsRepo.GetEntityWithSpec(spec);
+            if(product==null)
+                return NotFound(new ApiResponse(404));
+
             return mapper.Map<Product, ProductToReturnDTO>(product);
 
             /*return new ProductToReturnDTO{
