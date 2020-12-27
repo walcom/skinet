@@ -63,7 +63,7 @@ namespace API
 
             services.AddCors( opt => {
                 opt.AddPolicy("CorsPolicy", policy => {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:5001/");
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });
             });
         }
@@ -80,13 +80,12 @@ namespace API
             app.UseStatusCodePagesWithReExecute("/errors/{0}"); //TODO
 
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
 
             app.UseStaticFiles(); // TODO
             app.UseCors("CorsPolicy");
+            app.UseHttpsRedirection();
 
 
             app.UseAuthorization();
