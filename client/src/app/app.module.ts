@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from './core/core.module';
+import { ShopModule } from './shop/shop.module';
 // import { NavBarComponent } from './core/nav-bar/nav-bar.component';
 
 @NgModule({
@@ -15,11 +16,12 @@ import { CoreModule } from './core/core.module';
     // NavBarComponent
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    CoreModule
+    CoreModule,
+    ShopModule
   ],
   providers: [],
   bootstrap: [AppComponent]

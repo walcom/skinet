@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+/* import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IProduct } from './shared/models/product';
-import { IPagination } from './shared/models/pagination';
+import { IPagination } from './shared/models/pagination'; */
 
 @Component({
   selector: 'app-root',
@@ -10,28 +10,30 @@ import { IPagination } from './shared/models/pagination';
 })
 export class AppComponent implements OnInit {
   title = 'Skinet';
-  products: IProduct[] = [];
+  // products: IProduct[] = [];
 
-  private root: string;
-  private corsHeaders: HttpHeaders;
+  // private root: string;
+  // private corsHeaders: HttpHeaders;
 
-  constructor(private http: HttpClient) {
+  constructor() {}
+
+  /* constructor(private http: HttpClient) {
     this.root = 'https://localhost:4200';
     this.corsHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
       'Access-Control-Allow-Origin': 'https://localhost:4200'
     });
-   }
+   } */
 
   ngOnInit(): void {
-    this.http.get('https://localhost:5001/api/products?pageSize=50').subscribe(
+    /* this.http.get('https://localhost:5001/api/products?pageSize=50').subscribe(
       // (response: IPagination) => {
       (response: any) => {
         this.products = response.data;
       }, error => {
         console.log(error);
-      });
+      }); */
   }
 
 }
