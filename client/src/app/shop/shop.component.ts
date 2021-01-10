@@ -3,6 +3,8 @@ import { IProduct } from '../shared/models/product';
 import { ShopService } from './shop.service';
 import { IBrand } from './../shared/models/brand';
 import { IType } from './../shared/models/productType';
+import { ShopParams } from './../shared/models/shopParams';
+import { Event } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -14,8 +16,18 @@ export class ShopComponent implements OnInit {
   products: IProduct[] = [];
   brands: IBrand[] = [];
   types: IType[] = [];
-  brandIdSelected!: number;
-  typeIdSelected!: number;
+  // brandIdSelected!: number;
+  // typeIdSelected!: number;
+
+  shopParams = new ShopParams();
+  totalCount!: number;
+
+  sortOptions = [
+    {name: 'Alphabetical', value: 'name'},
+    {name: 'Price: Low to High', value: 'priceAsc'},
+    {name: 'Price: High to Low', value: 'priceDesc'}
+  ];
+
 
   constructor(private shopService: ShopService) { }
 
@@ -28,9 +40,15 @@ export class ShopComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   getProducts(){
-    this.shopService.getProducts().subscribe(response => {
-      if(response != null){
+    // this.brandIdSelected, this.typeIdSelected, this.sortSelected
+    this.shopService.getProducts(this.shopParams)
+    .subscribe(response => {
+      if (response != null){
         this.products = response.data;
+
+        this.shopParams.pageNumber = response.pageIndex;
+        this.shopParams.pageSize = response.pageSize;
+        this.totalCount = response.count; 
       }
     }, error => {
       console.log(error);
@@ -40,7 +58,8 @@ export class ShopComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getBrands(){
     this.shopService.getBrands().subscribe(response => {
-      this.brands = response;
+      // this.brands = response;
+      this.brands = [{id: 0, name: 'All'}, ...response];
     }, error => {
       console.log(error);
     });
@@ -49,7 +68,8 @@ export class ShopComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getTypes(){
     this.shopService.getTypes().subscribe(response => {
-      this.types = response;
+      // this.types = response;
+      this.types = [{id: 0, name: 'All'}, ...response];
     }, error => {
       console.log(error);
     });
@@ -58,15 +78,31 @@ export class ShopComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   onBrandSelected(brandId: number){
-    this.brandIdSelected = brandId;
+    this.shopParams.brandId = brandId;
     this.getProducts();
   }
 
   // tslint:disable-next-line: typedef
   onTypeSelected(typeId: number){
-    this.typeIdSelected = typeId;
+    this.shopParams.typeId = typeId;
     this.getProducts();
   }
 
+
+  // tslint:disable-next-line: typedef
+  onSortSelected($event: any, sort: string){
+    this.shopParams.sort = sort;
+    this.getProducts();
+  }
+
+  // $event.target.value
+
+
+  // tslint:disable-next-line: typedef
+  onPageChnaged(event: any){
+    // tslint:disable-next-line: deprecation
+    this.shopParams.pageNumber = event.page;
+    this.getProducts();
+  }
 
 }
