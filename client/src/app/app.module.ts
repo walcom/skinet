@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { ShopModule } from './shop/shop.module';
 // import { NavBarComponent } from './core/nav-bar/nav-bar.component';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [
@@ -16,12 +17,13 @@ import { ShopModule } from './shop/shop.module';
     // NavBarComponent
   ],
   imports: [
-  BrowserModule,
+BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
-    ShopModule
+    ShopModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
