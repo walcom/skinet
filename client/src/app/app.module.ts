@@ -17,7 +17,7 @@ import { HomeModule } from './home/home.module';
     // NavBarComponent
   ],
   imports: [
-BrowserModule,
+    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
