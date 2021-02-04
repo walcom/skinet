@@ -20,7 +20,7 @@ export class ProductDetailsComponent implements OnInit {
   // tslint:disable-next-line: typedef
   loadProduct(){
     // tslint:disable-next-line: no-non-null-assertion
-    const id = +this.activateRoute.snapshot.paramMap.get('id');
+    const id = +this.activateRoute.snapshot.paramMap.get('id')!;
     this.shopService.getProduct(id).subscribe(product => {
       this.product = product;
     }, error => {
