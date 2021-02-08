@@ -12,7 +12,7 @@ import { Event } from '@angular/router';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-  @ViewChild('search', {static: true}) searchTerm!: ElementRef;
+  @ViewChild('search', {static: false}) searchTerm!: ElementRef; // true
 
   products: IProduct[] = [];
   brands: IBrand[] = [];
