@@ -1,0 +1,14 @@
+{
+    "id": "12345", 
+    "items": [
+        {
+        "id": 18,
+        "productName": "Angular Blue Boots",
+        "price": 180,
+        "quantity": 1,
+        "pictureUrl": "https://localhost:5001/images/products/boot-ang1.png",
+        "brand": "Angular",
+        "Type": "Boots"            
+    }]
+}
+
