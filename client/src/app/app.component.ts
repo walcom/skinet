@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BasketService } from './basket/basket.service';
 /* import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IProduct } from './shared/models/product';
 import { IPagination } from './shared/models/pagination'; */
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
   // private root: string;
   // private corsHeaders: HttpHeaders;
 
-  constructor() {}
+  constructor(private basketService: BasketService) {}
 
   /* constructor(private http: HttpClient) {
     this.root = 'https://localhost:4200';
@@ -27,6 +28,14 @@ export class AppComponent implements OnInit {
    } */
 
   ngOnInit(): void {
+    const basketId = localStorage.getItem('basket_id');
+    if(basketId){
+      this.basketService.getBasket(basketId).subscribe( () => {
+        console.log('Initializing Basket...');        
+      }, error => {
+        console.log(error);
+      });
+    }
     /* this.http.get('https://localhost:5001/api/products?pageSize=50').subscribe(
       // (response: IPagination) => {
       (response: any) => {
