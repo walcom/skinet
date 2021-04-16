@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IBasket } from '../shared/models/basket';
+import { IBasket, IBasketItem } from '../shared/models/basket';
 import { BasketService } from './basket.service';
 
 @Component({
@@ -9,12 +9,28 @@ import { BasketService } from './basket.service';
   styleUrls: ['./basket.component.scss']
 })
 export class BasketComponent implements OnInit {
-  basket$!: Observable<IBasket>
+  basket$!: Observable<IBasket>;
 
   constructor(private basketService: BasketService) { }
 
   ngOnInit(): void {
-    this.basket$ = <Observable<IBasket>>this.basketService.basket$;
+    // tslint:disable-next-line: no-angle-bracket-type-assertion
+    this.basket$ = <Observable<IBasket>> this.basketService.basket$;
+  }
+
+  // tslint:disable-next-line: typedef
+  removeBasketItem(item: IBasketItem){
+    this.basketService.removeItemFromBasket(item);
+  }
+
+  // tslint:disable-next-line: typedef
+  incrementItemQuantity(item: IBasketItem){
+    this.basketService.incrementItemQuantity(item);
+  }
+
+  // tslint:disable-next-line: typedef
+  decrementItemQuantity(item: IBasketItem){
+    this.basketService.decrementItemQuantity(item);
   }
 
 }

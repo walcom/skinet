@@ -35,7 +35,7 @@ export class BasketService {
   }
 
   // tslint:disable-next-line: typedef
-  setbasket(basket: IBasket){
+  setBasket(basket: IBasket){
     // tslint:disable-next-line: deprecation
     return this.http.post(this.baseUrl + 'basket', basket).subscribe( (response: any) => {
       this.basketSource.next(response);
@@ -54,14 +54,71 @@ export class BasketService {
   addItemToBasket(item: IProduct, quantity = 1){
     const itemToAdd: IBasketItem = this.mapProductItemToBasketItem(item, quantity);
     let basket = this.getCurrentBasketValue();
-    if(basket === null){
+    if (basket === null){
       basket = this.createBasket();
     }
 
     // console.log(basket);
     // basket.items.push(itemToAdd);
     basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
-    this.setbasket(basket);
+    this.setBasket(basket);
+  }
+
+
+  // tslint:disable-next-line: typedef
+  incrementItemQuantity(item: IBasketItem){
+    const basket = this.getCurrentBasketValue();
+    const foundItemIndex = basket?.items.findIndex(x => x.id === item.id);
+
+    // tslint:disable-next-line: no-non-null-assertion
+    basket!.items[foundItemIndex!].quantity++;
+    // tslint:disable-next-line: no-non-null-assertion
+    this.setBasket(basket!);
+  }
+
+  // tslint:disable-next-line: typedef
+  decrementItemQuantity(item: IBasketItem){
+    const basket = this.getCurrentBasketValue();
+    const foundItemIndex = basket?.items.findIndex(x => x.id === item.id);
+
+    // tslint:disable-next-line: no-non-null-assertion
+    if (basket!.items[foundItemIndex!].quantity > 1){
+      // tslint:disable-next-line: no-non-null-assertion
+      basket!.items[foundItemIndex!].quantity--;
+      // tslint:disable-next-line: no-non-null-assertion
+      this.setBasket(basket!);
+    }
+    else{
+      this.removeItemFromBasket(item);
+    }
+  }
+
+  // tslint:disable-next-line: typedef
+  removeItemFromBasket(item: IBasketItem){
+    const basket = this.getCurrentBasketValue();
+
+    if (basket?.items.some(x => x.id === item.id)){
+      basket.items = basket.items.filter(i => i.id !== item.id);
+      if (basket.items.length > 0){
+        this.setBasket(basket);
+      }
+      else{
+        this.deleteBasket(basket);
+      }
+    }
+  }
+
+  // tslint:disable-next-line: typedef
+  deleteBasket(basket: IBasket){
+    // tslint:disable-next-line: deprecation
+    return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe(() =>{
+      this.basketSource.next(null);
+      this.basketTotalSource.next(null);
+
+      localStorage.removeItem('basket_id');
+    }, error => {
+      console.log(error);
+    });
   }
 
 
