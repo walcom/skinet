@@ -63,7 +63,7 @@ namespace API
 
             //TODO
             services.AddApplicationServices();
-            services.AddIdentityServices();
+            services.AddIdentityServices(_configuration);
             services.AddSwaggerDocumentation();
 
            /* services.AddSwaggerGen( c => 
@@ -98,9 +98,10 @@ namespace API
             app.UseHttpsRedirection();
 
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            //TODO: Add swagger 
+            // Add swagger 
             app.UseSwaggerDocumentation();
             /*app.UseSwagger();
             app.UseSwaggerUI(c => 
