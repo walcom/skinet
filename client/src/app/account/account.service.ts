@@ -20,10 +20,9 @@ export class AccountService {
 
 
   // tslint:disable-next-line: typedef
-  /* getCurrentUserValue() {
-
-    return this.currentUserSource.subscribe((data) =>{
-    }); //.value;
+   /* getCurrentUserValue() {
+    return this.currentUserSource.subscribe((data) => {
+    }); // .value;
   } */
 
 
@@ -67,7 +66,9 @@ export class AccountService {
     return this.http.post(this.baseUrl + 'account/register', values).pipe(
       map((user: any) => { // IUser
         if (user) {
+          console.log(user);
           localStorage.setItem('token', user.token);
+          this.currentUserSource.next(user);
         }
       })
     );
@@ -84,7 +85,7 @@ export class AccountService {
 
   // tslint:disable-next-line: typedef
   checkEmailExists(email: string){
-    return this.http.get(this.baseUrl + '/account/emailexists?email=' + email);
+    return this.http.get(this.baseUrl + 'account/emailexists?email=' + email);
   }
 
 }

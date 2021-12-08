@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
     const token = localStorage.getItem('token');
     console.log(token);
     // tslint:disable-next-line: no-non-null-assertion
-    /* this.accountService.loadCurrentUser(token!).subscribe(() => {
+    /* this.accountService.loadCurrentUser(token).subscribe(() => {
       console.log('loaded user');
     }, error => {
       console.log(error);

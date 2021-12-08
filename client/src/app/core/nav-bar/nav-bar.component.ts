@@ -22,4 +22,9 @@ export class NavBarComponent implements OnInit {
     this.currentUser$ = this.accountService.currentUser$;
   }
 
+  // tslint:disable-next-line: typedef
+  logout() {
+    this.accountService.logout();
+  }
+
 }
